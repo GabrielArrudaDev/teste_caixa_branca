@@ -6,11 +6,11 @@ Cálculo de Complexidade Ciclomática
 
 V(G) = 8 REGIÕES.
 <br>
-V(G) = 24 ARESTAS.
+V(G) = 23 ARESTAS.
 <br>
 V(G) = 21 NÓS.
 <br>
-CÁLCULO: V(G) = (ARESTAS (24) – NÓS (21)) + 2 = 5 
+CÁLCULO: V(G) = (ARESTAS (23) – NÓS (21)) + 2 = 4 
 
 # Caminhos possiveis
 
