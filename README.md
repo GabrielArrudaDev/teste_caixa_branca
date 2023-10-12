@@ -1,21 +1,44 @@
-   # Teste de caixa branca
-   
-   ## Este documento lista os erros encontrados no código Java fornecido.
+# Projeto de Login de Usuário
 
-1. Nome da Classe Principal: O nome da classe principal não coincide com o nome do arquivo. Certifique-se de que o nome da classe principal seja "User" ou renomeie o arquivo conforme necessário.
+Este é um projeto simples para autenticar um usuário em um banco de dados MySQL. Ele consiste em uma classe Java chamada `User` que oferece métodos para conectar-se ao banco de dados, verificar a existência de um usuário e armazenar informações relacionadas ao usuário.
 
-2. Driver JDBC Incorreto: O código utiliza o driver JDBC incorreto. Substitua "com.mysql.Driver.Manager" por "com.mysql.jdbc.Driver" para carregar o driver JDBC corretamente.
+## Como Funciona
 
-3. Exceções Vazias: Várias instruções catch (Exception e) {} estão vazias, o que não é uma prática recomendada. Registre ou trate as exceções para facilitar a depuração.
+O projeto é implementado em Java e utiliza o driver MySQL JDBC para estabelecer uma conexão com um banco de dados MySQL. Abaixo, explicamos o que acontece em cada parte do código:
 
-4. Concatenação de Strings para SQL: O código concatena strings diretamente para criar consultas SQL, o que é inseguro e pode levar a ataques de injeção SQL. Considere o uso de consultas parametrizadas ou PreparedStatements para evitar isso.
+- `User.java` é a classe principal que contém todos os métodos necessários.
 
-5. Manipulação de Exceções Inadequada: As exceções não estão sendo tratadas adequadamente, dificultando a depuração de problemas. Registre ou trate as exceções de forma apropriada.
+- `conectarBD()` é um método que estabelece uma conexão com o banco de dados. O que acontece em cada linha deste método:
 
-6. Recursos Não Fechados: Não há fechamento adequado de recursos, como conexões, declarações e conjuntos de resultados após o uso. Certifique-se de fechar esses recursos corretamente.
+    - `Connection conn = null;`: Cria uma variável `conn` para armazenar a conexão com o banco de dados.
 
-7. Variável result Pública: A variável result é uma variável de instância pública. É uma boa prática tornar variáveis de instância privadas e fornecer métodos getter e setter para acessá-las.
+    - `Class.forName("com.mysql.cj.jdbc.Driver").newInstance();`: Carrega o driver MySQL JDBC para permitir a conexão com o banco de dados. Essa linha lança uma exceção se o driver não estiver disponível.
 
-8. Senha em Texto Simples: A senha está sendo passada como texto simples no código. Isso não é seguro. Considere o uso de hashes de senha e armazenamento seguro de senhas no banco de dados.
+    - `String url = "jdbc:mysql://127.0.0.1/test?user=lopes&password=123";`: Define a URL do banco de dados, o nome de usuário e a senha para a conexão.
 
-9. URL de Conexão Incompleta: A URL de conexão com o banco de dados não especifica a porta do servidor do MySQL. Certifique-se de fornecer a porta correta.
+    - `conn = DriverManager.getConnection(url);`: Estabelece a conexão com o banco de dados usando a URL fornecida.
+
+- `verificarUsuario(String login, String senha)` é um método que verifica se um usuário com um login e senha fornecidos existe no banco de dados. O que acontece em cada linha deste método:
+
+    - `String sql = "";`: Cria uma string vazia para armazenar a instrução SQL.
+
+    - `Connection conn = conectarBD();`: Chama o método `conectarBD()` para obter uma conexão com o banco de dados.
+
+    - Monta a instrução SQL para a consulta, incluindo o login e a senha fornecidos.
+
+    - `Statement st = conn.createStatement();`: Cria um objeto `Statement` para executar a instrução SQL no banco de dados.
+
+    - `ResultSet rs = st.executeQuery(sql);`: Executa a consulta SQL e armazena os resultados em um objeto `ResultSet`.
+
+    - `if (rs.next()) {`: Verifica se há resultados na consulta.
+
+        - `result = true;`: Define a variável `result` como verdadeira para indicar que o usuário foi encontrado.
+
+        - `nome = rs.getString("nome");`: Armazena o nome do usuário encontrado na variável `nome`.
+
+- As variáveis `nome` e `result` são usadas para armazenar informações do usuário e o resultado da verificação.
+
+- Os comentários de documentação foram adicionados para descrever a finalidade de classes, métodos e variáveis.
+
+
+
